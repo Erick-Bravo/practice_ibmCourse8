@@ -22,7 +22,7 @@ def create_customer(request):
 
 def summary(request):
     thirty_days_ago = date.today() - timedelta(days=30)
-    interaction = Interaction.objects.filter(interaction_date__gte=thirty_days_ago)
+    interactions = Interaction.objects.filter(interaction_date__gte=thirty_days_ago)
 
     count = len(interactions)
     interactions = interactions.values("channel", "direction").annotate(count=Count("channel"))
@@ -35,7 +35,7 @@ def summary(request):
 
 def interact(request, cid):
     channels = Interaction.CHANNEL_CHOICES
-    direction = Interaction.DIRECTION_CHOICES
+    directions = Interaction.DIRECTION_CHOICES
     context = {"channels": channels, "directions": directions}
 
     if request.method == "POST":
